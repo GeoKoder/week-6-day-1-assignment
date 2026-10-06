@@ -68,3 +68,31 @@ ORDER by town DESC;
 
 -- TASK 2: Answer Business Questions 
 -- Question 1: Which teacher has the most students across all their courses? Display the teacher name and total number of unique students.
+SELECT 
+  teachers.name AS teacher_name,
+  COUNT (DISTINCT enrollments.student_id) AS total_students
+FROM teachers
+INNER JOIN courses ON teachers.id = courses.teacher_id
+INNER JOIN enrollments ON courses.id = enrollments.course_id
+GROUP BY teachers.id, teachers.name
+ORDER BY total_students DESC 
+LIMIT 1;
+
+-- Question 2: What is the average grade per course? Display course name and average grade, sorted by average grade descending.
+SELECT 
+  courses.name AS course_name,
+  ROUND(AVG(enrollments.grade), 2) AS avg_grade
+FROM courses
+INNER JOIN enrollments ON courses.id = enrollments.course_id
+GROUP BY courses.id, courses.name
+ORDER BY avg_grade DESC;
+
+-- Question 3: Which students are enrolled in more than 3 courses? Display student name and course count.
+SELECT 
+  students.name AS student_name,
+  COUNT(courses.id) AS course_count
+FROM students
+INNER JOIN enrollments ON students.id = enrollments.student_id
+INNER JOIN courses ON enrollments.course_id = courses.id
+GROUP BY students.name
+HAVING COUNT(courses.id) > 3
