@@ -14,7 +14,8 @@ SELECT
   courses.name AS course_name
 FROM enrollments
 INNER JOIN students ON enrollments.student_id = students.id
-INNER JOIN courses ON enrollments.course_id = courses.id;
+INNER JOIN courses ON enrollments.course_id = courses.id
+LIMIT 5;
 
 -- Query 4: Count how many students are enrolled in each course. Order by count descending.
 SELECT 
@@ -53,7 +54,8 @@ SELECT
   courses.name AS course_name,
   teachers.name AS teacher_name
 FROM teachers
-INNER JOIN courses ON courses.teacher_id = teachers.id;
+INNER JOIN courses ON courses.teacher_id = teachers.id
+LIMIT 5;
 
 -- Query 10: Count how many students are from each town, only showing towns with more than 1 student.
 SELECT town, COUNT(*) AS student_count
@@ -61,3 +63,8 @@ FROM students
 GROUP BY town
 HAVING COUNT(*) > 1
 ORDER by town DESC;
+
+
+
+-- TASK 2: Answer Business Questions 
+-- Question 1: Which teacher has the most students across all their courses? Display the teacher name and total number of unique students.
