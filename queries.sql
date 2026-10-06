@@ -1,0 +1,63 @@
+-- Task 1: Write 10 SQL Queries 
+-- Query 1: Select all students from Nairobi 
+SELECT id, name, email, age, town FROM students
+WHERE town = 'Nairobi';
+
+-- Query 2: Select all courses with more than 3 credits, ordered by name alphabetically.
+SELECT id, name, code, credits FROM courses
+WHERE credits > 3
+ORDER BY name;
+
+-- Query 3: Select student names and their enrolled course names using JOIN.
+SELECT 
+  students.name AS student_name,
+  courses.name AS course_name
+FROM enrollments
+INNER JOIN students ON enrollments.student_id = students.id
+INNER JOIN courses ON enrollments.course_id = courses.id;
+
+-- Query 4: Count how many students are enrolled in each course. Order by count descending.
+SELECT 
+  courses.name as course_name,
+  COUNT(enrollments.id) AS student_count
+FROM courses
+LEFT JOIN enrollments ON courses.id = enrollments.course_id
+GROUP BY courses.name
+ORDER BY student_count DESC;
+
+-- Query 5: Find all students older than 22, sorted by age descending.
+SELECT name, age, town FROM students
+WHERE age > 22
+ORDER BY AGE DESC;
+
+-- Query 6: Find the average grade across all enrollments.
+SELECT avg(grade) AS avg_grade FROM enrollments;
+
+-- Query 7: Find the highest and lowest grade in the enrollments table.
+SELECT 
+  MAX(grade) AS highest_grade,
+  MIN(grade) AS lowest_grade
+FROM enrollments;
+
+-- Query 8: Select students whose names start with a vowel (A, E, I, O, U)
+SELECT name FROM students 
+WHERE ( name LIKE 'A%' OR 
+        name LIKE 'E%' OR 
+        name LIKE 'I%' OR
+        name LIKE 'O%' OR 
+        name LIKE 'U%')
+ORDER BY name;
+
+-- Query 9: Find all courses in the Computer Science department (join courses with teachers).
+SELECT 
+  courses.name AS course_name,
+  teachers.name AS teacher_name
+FROM teachers
+INNER JOIN courses ON courses.teacher_id = teachers.id;
+
+-- Query 10: Count how many students are from each town, only showing towns with more than 1 student.
+SELECT town, COUNT(*) AS student_count
+FROM students
+GROUP BY town
+HAVING COUNT(*) > 1
+ORDER by town DESC;
