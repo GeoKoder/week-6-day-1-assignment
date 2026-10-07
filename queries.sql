@@ -95,4 +95,29 @@ FROM students
 INNER JOIN enrollments ON students.id = enrollments.student_id
 INNER JOIN courses ON enrollments.course_id = courses.id
 GROUP BY students.name
-HAVING COUNT(courses.id) > 3
+HAVING COUNT(courses.id) > 3;
+
+
+-- Task 3: Data Modifications 
+-- 3a: INSERT 5 new students with Kenyan names and towns. Use these values:
+INSERT INTO students (name, email, age, town)
+VALUES 
+-- Insert these 5 students
+  ('Njeri Maina', 'njeri@student.ac.ke', 20, 'Nyeri'),
+  ('Kamau Githuku', 'kamau.g@student.ac.ke', 22, 'Kiambu'),
+  ('Atieno Owino', 'atieno@student.ac.ke', 21, 'Homa Bay'),
+  ('Baraka Mwiti', 'baraka@student.ac.ke', 23, 'Meru'),
+  ('Zawadi Chebet', 'zawadi@student.ac.ke', 19, 'Kericho')
+
+-- 3b: UPDATE the grades for all enrollments in course_id 1 (Introduction to Programming) -- increase each grade by 5 points (but cap at 100).
+UPDATE enrollments
+SET grade = least(grade + 5, 100)
+WHERE course_id = 1;
+
+-- 3c: DELETE all students who have no enrollments (the 5 students you just inserted have no enrollments).
+DELETE FROM students s
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM enrollments e
+    WHERE e.student_id = s.id
+);
