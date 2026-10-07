@@ -121,3 +121,16 @@ WHERE NOT EXISTS (
     FROM enrollments e
     WHERE e.student_id = s.id
 );
+
+
+
+-- BONUS CHALLENGE
+SELECT 
+  students.name AS student_name,
+  ROUND(AVG(enrollments.grade), 2) AS student_avg
+FROM students
+INNER JOIN enrollments ON students.id = enrollments.student_id
+GROUP BY student_name
+HAVING (
+  AVG(enrollments.grade) > (SELECT AVG(grade) FROM enrollments)
+);
